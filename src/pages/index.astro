@@ -9,18 +9,18 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-[1200px] mx-auto px-6">
       <div class="max-w-2xl animate-fade-up">
         <p class="text-[var(--color-accent)] text-sm font-medium tracking-wide uppercase mb-4" style="font-family: var(--font-display);">Open Source</p>
-        <h1 class="text-4xl md:text-[3.5rem] leading-[1.1] font-bold tracking-tight mb-6" style="font-family: var(--font-display);">
-          The invite portal your<br/>media server deserves
+        <h1 class="text-[clamp(2rem,5vw,3.5rem)] leading-[1.1] font-bold tracking-tight mb-6" style="font-family: var(--font-display);">
+          The invite portal your media server deserves
         </h1>
-        <p class="text-lg text-[var(--color-text-secondary)] leading-relaxed mb-8 max-w-lg">
+        <p class="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed mb-8 max-w-lg">
           Manage invites, onboard users, and control access to your Plex and Jellyfin servers. A complete replacement for Wizarr and JFA-GO.
         </p>
-        <div class="flex flex-wrap gap-3">
-          <a href="#install" class="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:brightness-110 text-white px-5 py-2.5 rounded-md text-sm font-medium transition-all duration-200">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href="#install" class="inline-flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:brightness-110 active:brightness-90 text-white px-5 py-3 sm:py-2.5 rounded-md text-sm font-medium transition-all duration-200">
             Install with Docker
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </a>
-          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="inline-flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] border border-[var(--color-border)] hover:border-[var(--color-border-light)] px-5 py-2.5 rounded-md text-sm font-medium transition-all duration-200">
+          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="inline-flex items-center justify-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] active:text-[var(--color-text-primary)] border border-[var(--color-border)] hover:border-[var(--color-border-light)] px-5 py-3 sm:py-2.5 rounded-md text-sm font-medium transition-all duration-200">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
             View source
           </a>
@@ -38,7 +38,7 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- Social proof strip -->
   <section class="border-y border-[var(--color-border)] bg-[var(--color-surface-1)]">
-    <div class="max-w-[1200px] mx-auto px-6 py-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-3 text-sm text-[var(--color-text-muted)]">
+    <div class="max-w-[1200px] mx-auto px-6 py-5 flex flex-wrap items-center justify-center gap-x-6 md:gap-x-12 gap-y-3 text-xs md:text-sm text-[var(--color-text-muted)]">
       <span class="flex items-center gap-2">
         <svg class="w-4 h-4 text-[var(--color-accent)]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
         Plex & Jellyfin
@@ -236,7 +236,7 @@ import Layout from '../layouts/Layout.astro';
             <span>docker-compose.yml</span>
             <button onclick="navigator.clipboard.writeText(document.getElementById('compose-code').textContent)" class="hover:text-[var(--color-text-secondary)] transition-colors">Copy</button>
           </div>
-          <pre class="p-5 text-sm leading-relaxed overflow-x-auto"><code id="compose-code" class="text-[var(--color-text-secondary)]"><span class="text-[var(--color-accent-light)]">services</span>:
+          <pre class="p-4 md:p-5 text-xs md:text-sm leading-relaxed overflow-x-auto"><code id="compose-code" class="text-[var(--color-text-secondary)]"><span class="text-[var(--color-accent-light)]">services</span>:
   <span class="text-[var(--color-accent-light)]">portalrr</span>:
     <span class="text-[var(--color-text-muted)]">image</span>: ghcr.io/portalrr-app/portalrr:latest
     <span class="text-[var(--color-text-muted)]">ports</span>:
@@ -256,7 +256,7 @@ import Layout from '../layouts/Layout.astro';
   <!-- CTA -->
   <section class="py-24 border-t border-[var(--color-border)]">
     <div class="max-w-[1200px] mx-auto px-6 text-center">
-      <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" style="font-family: var(--font-display);">Stop gatekeeping with spreadsheets</h2>
+      <h2 class="text-2xl md:text-4xl font-bold tracking-tight mb-4" style="font-family: var(--font-display);">Stop gatekeeping with spreadsheets</h2>
       <p class="text-[var(--color-text-secondary)] max-w-md mx-auto mb-8">
         Your media server deserves a proper invite system. Set it up in 5 minutes.
       </p>

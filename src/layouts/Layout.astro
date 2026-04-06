@@ -42,11 +42,11 @@ const { title, description = 'Self-hosted invite management portal for Plex and 
         </button>
       </div>
       <div id="mobile-menu" class="hidden md:hidden border-t border-[var(--color-border)] bg-[var(--color-surface-0)]">
-        <div class="px-6 py-4 flex flex-col gap-4 text-sm">
-          <a href="/#features" class="text-[var(--color-text-secondary)]">Features</a>
-          <a href="/#install" class="text-[var(--color-text-secondary)]">Install</a>
-          <a href="/changelog" class="text-[var(--color-text-secondary)]">Changelog</a>
-          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="text-[var(--color-text-secondary)]">GitHub</a>
+        <div class="px-6 py-3 flex flex-col text-sm">
+          <a href="/#features" class="text-[var(--color-text-secondary)] py-3 border-b border-[var(--color-border)]">Features</a>
+          <a href="/#install" class="text-[var(--color-text-secondary)] py-3 border-b border-[var(--color-border)]">Install</a>
+          <a href="/changelog" class="text-[var(--color-text-secondary)] py-3 border-b border-[var(--color-border)]">Changelog</a>
+          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="text-[var(--color-text-secondary)] py-3">GitHub</a>
         </div>
       </div>
     </nav>
@@ -88,6 +88,13 @@ const { title, description = 'Self-hosted invite management portal for Plex and 
 
       toggle?.addEventListener('click', () => {
         menu?.classList.toggle('hidden');
+      });
+
+      // Close mobile menu on link click
+      menu?.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          menu?.classList.add('hidden');
+        });
       });
     </script>
   </body>
