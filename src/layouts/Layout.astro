@@ -1,0 +1,53 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Self-hosted invite management portal for Plex and Jellyfin media servers.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#7e22ce" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/logo.png" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-gray-950 text-gray-100 min-h-screen antialiased">
+    <nav class="fixed top-0 w-full z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/50">
+      <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3">
+          <img src="/logo.png" alt="Portalrr" class="w-8 h-8" />
+          <span class="text-lg font-semibold">Portalrr</span>
+        </a>
+        <div class="flex items-center gap-6 text-sm">
+          <a href="/#features" class="text-gray-400 hover:text-white transition-colors">Features</a>
+          <a href="/changelog" class="text-gray-400 hover:text-white transition-colors">Changelog</a>
+          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="text-gray-400 hover:text-white transition-colors">GitHub</a>
+          <a href="https://github.com/portalrr-app/portalrr#quick-start" target="_blank" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg transition-colors font-medium">Get Started</a>
+        </div>
+      </div>
+    </nav>
+    <main class="pt-16">
+      <slot />
+    </main>
+    <footer class="border-t border-gray-800/50 mt-24">
+      <div class="max-w-6xl mx-auto px-6 py-8 flex items-center justify-between text-sm text-gray-500">
+        <p>&copy; {new Date().getFullYear()} Portalrr</p>
+        <div class="flex gap-6">
+          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="hover:text-gray-300 transition-colors">GitHub</a>
+          <a href="https://github.com/portalrr-app/portalrr/issues" target="_blank" class="hover:text-gray-300 transition-colors">Issues</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
