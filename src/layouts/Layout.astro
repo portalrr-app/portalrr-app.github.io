@@ -17,37 +17,78 @@ const { title, description = 'Self-hosted invite management portal for Plex and 
     <meta name="description" content={description} />
     <meta name="theme-color" content="#7e22ce" />
     <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap" rel="stylesheet" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/logo.png" />
+    <meta property="og:image" content="/screenshots/dashboard.png" />
     <title>{title}</title>
   </head>
-  <body class="bg-gray-950 text-gray-100 min-h-screen antialiased">
-    <nav class="fixed top-0 w-full z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/50">
-      <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-3">
-          <img src="/logo.png" alt="Portalrr" class="w-8 h-8" />
-          <span class="text-lg font-semibold">Portalrr</span>
+  <body class="min-h-screen antialiased">
+    <nav class="fixed top-0 w-full z-50" id="nav">
+      <div class="max-w-[1200px] mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5 group">
+          <img src="/logo.png" alt="Portalrr" class="w-7 h-7" />
+          <span class="text-[var(--color-text-primary)] font-medium tracking-tight" style="font-family: var(--font-display);">Portalrr</span>
         </a>
-        <div class="flex items-center gap-6 text-sm">
-          <a href="/#features" class="text-gray-400 hover:text-white transition-colors">Features</a>
-          <a href="/changelog" class="text-gray-400 hover:text-white transition-colors">Changelog</a>
-          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="text-gray-400 hover:text-white transition-colors">GitHub</a>
-          <a href="https://github.com/portalrr-app/portalrr#quick-start" target="_blank" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg transition-colors font-medium">Get Started</a>
+        <div class="hidden md:flex items-center gap-8 text-sm">
+          <a href="/#features" class="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors duration-200">Features</a>
+          <a href="/#install" class="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors duration-200">Install</a>
+          <a href="/changelog" class="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors duration-200">Changelog</a>
+          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors duration-200">GitHub</a>
+        </div>
+        <button id="mobile-toggle" class="md:hidden text-[var(--color-text-secondary)] p-2 -mr-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+      <div id="mobile-menu" class="hidden md:hidden border-t border-[var(--color-border)] bg-[var(--color-surface-0)]">
+        <div class="px-6 py-4 flex flex-col gap-4 text-sm">
+          <a href="/#features" class="text-[var(--color-text-secondary)]">Features</a>
+          <a href="/#install" class="text-[var(--color-text-secondary)]">Install</a>
+          <a href="/changelog" class="text-[var(--color-text-secondary)]">Changelog</a>
+          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="text-[var(--color-text-secondary)]">GitHub</a>
         </div>
       </div>
     </nav>
-    <main class="pt-16">
+
+    <main>
       <slot />
     </main>
-    <footer class="border-t border-gray-800/50 mt-24">
-      <div class="max-w-6xl mx-auto px-6 py-8 flex items-center justify-between text-sm text-gray-500">
-        <p>&copy; {new Date().getFullYear()} Portalrr</p>
-        <div class="flex gap-6">
-          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="hover:text-gray-300 transition-colors">GitHub</a>
-          <a href="https://github.com/portalrr-app/portalrr/issues" target="_blank" class="hover:text-gray-300 transition-colors">Issues</a>
+
+    <footer class="border-t border-[var(--color-border)]">
+      <div class="max-w-[1200px] mx-auto px-6 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-sm text-[var(--color-text-muted)]">
+        <div class="flex items-center gap-2">
+          <img src="/logo.png" alt="" class="w-4 h-4 opacity-50" />
+          <span>&copy; {new Date().getFullYear()} Portalrr</span>
+        </div>
+        <div class="flex gap-8">
+          <a href="https://github.com/portalrr-app/portalrr" target="_blank" class="hover:text-[var(--color-text-secondary)] transition-colors">Source</a>
+          <a href="https://github.com/portalrr-app/portalrr/issues" target="_blank" class="hover:text-[var(--color-text-secondary)] transition-colors">Issues</a>
+          <a href="/changelog" class="hover:text-[var(--color-text-secondary)] transition-colors">Changelog</a>
         </div>
       </div>
     </footer>
+
+    <script>
+      const nav = document.getElementById('nav');
+      const toggle = document.getElementById('mobile-toggle');
+      const menu = document.getElementById('mobile-menu');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          nav.style.background = 'oklch(0.13 0.02 280 / 0.85)';
+          nav.style.backdropFilter = 'blur(12px)';
+          nav.style.borderBottom = '1px solid oklch(0.22 0.02 280)';
+        } else {
+          nav.style.background = 'transparent';
+          nav.style.backdropFilter = 'none';
+          nav.style.borderBottom = '1px solid transparent';
+        }
+      });
+
+      toggle?.addEventListener('click', () => {
+        menu?.classList.toggle('hidden');
+      });
+    </script>
   </body>
 </html>
