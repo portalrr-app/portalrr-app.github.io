@@ -1,13 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-let releases: any[] = [];
-try {
-  const res = await fetch('https://api.github.com/repos/portalrr-app/portalrr/releases', {
-    headers: { 'Accept': 'application/vnd.github+json' }
-  });
-  if (res.ok) releases = await res.json();
-} catch {}
 ---
 
 <Layout title="Changelog — Portalrr">
@@ -16,28 +8,86 @@ try {
     <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" style="font-family: var(--font-display);">What's new</h1>
     <p class="text-[var(--color-text-secondary)] mb-16">All releases are published on <a href="https://github.com/portalrr-app/portalrr/releases" target="_blank" class="text-[var(--color-accent-light)] hover:underline">GitHub Releases</a>.</p>
 
-    {releases.length === 0 && (
-      <div class="text-center py-16">
-        <p class="text-[var(--color-text-muted)]">No releases published yet.</p>
-      </div>
-    )}
-
-    <div class="space-y-16">
-      {releases.map((release: any, i: number) => (
-        <article>
-          <div class="flex items-baseline gap-4 mb-4">
-            <a href={release.html_url} target="_blank" class="text-xl font-bold hover:text-[var(--color-accent-light)] transition-colors" style="font-family: var(--font-display);">
-              {release.name || release.tag_name}
-            </a>
-            <time class="text-xs text-[var(--color-text-muted)]" datetime={release.published_at}>
-              {new Date(release.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-            </time>
-            {i === 0 && <span class="text-xs bg-[var(--color-accent-dim)] text-[var(--color-accent-light)] px-2 py-0.5 rounded">Latest</span>}
-          </div>
-          <div class="text-sm text-[var(--color-text-secondary)] leading-relaxed whitespace-pre-line">{release.body || 'No release notes.'}</div>
-          {i < releases.length - 1 && <div class="border-b border-[var(--color-border)] mt-16"></div>}
-        </article>
-      ))}
+    <div id="releases-loading" class="text-center py-16">
+      <p class="text-[var(--color-text-muted)]">Loading releases...</p>
     </div>
+
+    <div id="releases-empty" class="text-center py-16 hidden">
+      <p class="text-[var(--color-text-muted)]">No releases published yet.</p>
+    </div>
+
+    <div id="releases-container" class="space-y-16"></div>
   </section>
+
+  <script>
+    async function loadReleases() {
+      const loading = document.getElementById('releases-loading')!;
+      const empty = document.getElementById('releases-empty')!;
+      const container = document.getElementById('releases-container')!;
+
+      try {
+        const res = await fetch('https://api.github.com/repos/portalrr-app/portalrr/releases', {
+          headers: { 'Accept': 'application/vnd.github+json' }
+        });
+        if (!res.ok) throw new Error('Failed to fetch');
+
+        const releases = await res.json();
+        loading.classList.add('hidden');
+
+        if (releases.length === 0) {
+          empty.classList.remove('hidden');
+          return;
+        }
+
+        releases.forEach((release: any, i: number) => {
+          const article = document.createElement('article');
+
+          const header = document.createElement('div');
+          header.className = 'flex items-baseline gap-4 mb-4';
+
+          const link = document.createElement('a');
+          link.href = release.html_url;
+          link.target = '_blank';
+          link.className = 'text-xl font-bold hover:text-[var(--color-accent-light)] transition-colors';
+          link.style.fontFamily = 'var(--font-display)';
+          link.textContent = release.name || release.tag_name;
+
+          const time = document.createElement('time');
+          time.className = 'text-xs text-[var(--color-text-muted)]';
+          time.dateTime = release.published_at;
+          time.textContent = new Date(release.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+          header.appendChild(link);
+          header.appendChild(time);
+
+          if (i === 0) {
+            const badge = document.createElement('span');
+            badge.className = 'text-xs bg-[var(--color-accent-dim)] text-[var(--color-accent-light)] px-2 py-0.5 rounded';
+            badge.textContent = 'Latest';
+            header.appendChild(badge);
+          }
+
+          article.appendChild(header);
+
+          const body = document.createElement('div');
+          body.className = 'text-sm text-[var(--color-text-secondary)] leading-relaxed whitespace-pre-line';
+          body.textContent = release.body || 'No release notes.';
+          article.appendChild(body);
+
+          if (i < releases.length - 1) {
+            const divider = document.createElement('div');
+            divider.className = 'border-b border-[var(--color-border)] mt-16';
+            article.appendChild(divider);
+          }
+
+          container.appendChild(article);
+        });
+      } catch {
+        loading.classList.add('hidden');
+        empty.classList.remove('hidden');
+      }
+    }
+
+    loadReleases();
+  </script>
 </Layout>
